@@ -4,25 +4,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("formCadastro")
 
-  if (form) {
+if (form) {
     form.addEventListener("submit", e => {
-      e.preventDefault()
+        e.preventDefault()
 
-      const email = document.getElementById("email").value.trim()
-      const senha = document.getElementById("senha").value.trim()
+        const email = document.getElementById("email").value.trim()
+        const senha = document.getElementById("senha").value.trim()
 
-      if (!email || !senha.includes("@")) {
-        alert("Preencha corretamente")
-        return
-      }
+        if (!email.includes("@")) {
+            alert("O email deve conter @")
+            return
+        }
 
-      dados.push({ email, senha })
-      localStorage.setItem("dados", JSON.stringify(dados))
+        if (senha.length < 8) {
+            alert("A senha deve ter pelo menos 8 caracteres")
+            return
+        }
 
-      alert("Cadastrado com sucesso!")
-      form.reset()
+        if (!/[A-Z]/.test(senha)) {
+            alert("A senha deve conter pelo menos uma letra maiúscula")
+            return
+        }
+
+        if (!/[0-9]/.test(senha)) {
+            alert("A senha deve conter pelo menos um número")
+            return
+        }
+
+        dados.push({ email, senha })
+        localStorage.setItem("dados", JSON.stringify(dados))
+
+        alert("Cadastrado com sucesso!")
+        form.reset()
     })
-  }
+}
 
   const lista = document.getElementById("lista")
 
@@ -38,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li")
 
       li.innerHTML = `
-        ${item.nome} - ${item.email}
+        ${item.email} - ${item.senha}
         <button class="delete" onclick="remover(${index})">X</button>
       `
 
